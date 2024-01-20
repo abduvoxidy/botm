@@ -1,0 +1,47 @@
+@use "/src/scss/colors";
+
+.layout {
+  height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  display: flex;
+  .leftSide {
+    flex: 1;
+    background-image: url(../../assets/bg-image.webp);
+    background-size: cover;
+    background-position:center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 36px;
+
+    .logoTitle {
+      color: #fff;
+      font-weight: 700;
+      font-size: 109px;
+      line-height: 133px;
+      .logoTitleGreen {
+        color: #3FB339;
+      }
+    }
+
+    .logoSubtitle {
+      text-align: center;
+      color: #fff;
+      font-size: 1.5rem;
+    }
+
+    .subtitleBlock {
+      color: #fff;
+    }
+  }
+
+  .rightSide {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+  }
+}

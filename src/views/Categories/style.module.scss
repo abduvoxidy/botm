@@ -1,0 +1,31 @@
+.categoryTable {
+    width: 100%;
+    min-height: 100vh;
+    .mainSection {
+        width: 100%;
+        height: 100%;
+        padding:2rem;
+    }
+    .TableContainer {
+        width: inherit;
+        height: inherit;
+    }
+    .categoryImage {
+        width: 70px;
+        height: 70px;
+        border-radius: 0.25rem;
+        object-fit: cover;
+    }
+}
+
+.table {
+    width: 100%;
+    height: 100%;
+    .table__head {
+        width: 100%;
+        background: red;
+    }
+}
+
+
+
