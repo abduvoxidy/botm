@@ -18,8 +18,8 @@ const ButtonsPopover = ({
   openModal = () => {},
   orientation = "vertical",
   className,
+  setOpenModal,
 }) => {
-  // const id = useId()
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (e) => {
@@ -34,7 +34,6 @@ const ButtonsPopover = ({
   const open = Boolean(anchorEl);
 
   console.log(id);
-  console.log(anchorEl);
 
   if (loading)
     return (
@@ -92,7 +91,8 @@ const ButtonsPopover = ({
             color="error"
             onClick={(e) => {
               handleClose();
-              onDeleteClick(e, id);
+              setOpenModal((prev)=> ({status: !prev.status , id: id}))
+              // onDeleteClick(e, id);
             }}
           >
             <DeleteIcon className="IconButton" />

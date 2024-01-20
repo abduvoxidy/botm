@@ -78,15 +78,6 @@ export default function ProductUpdate({ loader, btnLoader, control }) {
                 required
                 rules={{}}
               />
-              {/* <HFInputField
-                fullWidth
-                type="number"
-                control={control}
-                name="price"
-                label="Price"
-                required
-                rules={{}}
-              /> */}
             </FRow>
           </div>
           <div className={styles.flex}>

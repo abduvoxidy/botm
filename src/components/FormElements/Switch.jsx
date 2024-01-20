@@ -4,7 +4,7 @@ import { Controller } from "react-hook-form";
 
 const formControlLabelStyle = {
   "& .MuiFormControlLabel-label": {
-    fontSize: "1.1rem",
+    fontSize: "1rem",
     fontWeight: "600",
   },
 };
@@ -19,9 +19,9 @@ const Switcher = ({ name, control, defaultValue, label, ...props }) => {
         <>
           <FormControlLabel
             sx={{ ...formControlLabelStyle }}
-            control={<Switch {...field} {...props} />}
+            control={<Switch {...field}  {...props} />}
             label={label}
-            labelPlacement="start"
+            labelPlacement="end"
           />
         </>
       )}

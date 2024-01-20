@@ -12,18 +12,12 @@ const HFSwitch = ({ control, name, label, disabledHelperText, labelProps, ...pro
       defaultValue={false}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <div className={!disabledHelperText ? 'mb-1' : ''} >
+            {console.log(value)}
           <Switch
             id={`switch-${id}`}
-            // checked={value ?? false}
             {...props}
-            checked={value}
-            onChange={(e, val) => {
-              // console.log("Target checked",e.target.checked)
-              // console.log(value)
-              // console.log("field",field)
-              console.log("value", val)
-              onChange(e.target.checked)
-              }}
+            checked={value ?? false}
+            onChange={(e, val) => onChange(val)}
           />
           <label htmlFor={`switch-${id}`} {...labelProps}>
             {label}

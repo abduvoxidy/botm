@@ -4,32 +4,19 @@ import FormCard from "../../../components/FormCard";
 import FRow from "../../../components/FormElements/FRow";
 import HFSelect from "../../../components/FormElements/HFSelect";
 import HFTextField from "../../../components/FormElements/HFTextField";
-import HFDateTimePicker from "../../../components/FormElements/HFDateTimePicker";
 import HFSwitch from "../../../components/FormElements/HFSwitch";
-import SaveButton from "../../../components/Buttons/SaveButton";
-import CancelButton from "../../../components/Buttons/CancelButton";
-import HFInputField from "../../../components/FormElements/HFInputField";
 import HFTextArea from "../../../components/FormElements/HFTextArea";
-import Switcher from "../../../components/FormElements/Switch";
 import HFImageUpload from "../../../components/FormElements/HFImageUpload";
 import { useNavigate } from "react-router-dom";
 
-const foodOptions = [
-  { label: "Fruits", value: "fruits" },
-  { label: "Vegetables", value: "vegetables" },
-  { label: "Dairy Products", value: "dairy" },
-  { label: "Grains", value: "grains" },
-  { label: "Proteins", value: "proteins" },
-  { label: "Sweets", value: "sweets" },
+const categoryId = [
+  { label: "CategoryId-1", value: "c8ee405b-f266-4585-b7be-ac10cffef2d6" },
+  { label: "CategoryId-default", value: "default category id" },
+  { label: "CategoryId-default", value: "default category id" },
+  { label: "CategoryId-default", value: "default category id" },
 ];
 
-const currencyCategories = [
-  { label: "USD", value: "USD" },
-  { label: "UZS", value: "UZS" },
-  { label: "EUR", value: "EUR" },
-];
-
-export default function ProductCreate({ loader, control, btnLoader }) {
+export default function ProductCreate({ loader, control }) {
   const navigate = useNavigate();
 
   return (
@@ -64,7 +51,7 @@ export default function ProductCreate({ loader, control, btnLoader }) {
                 control={control}
                 name="category_id"
                 label="Select Category"
-                options={foodOptions}
+                options={categoryId}
                 required
                 rules={{}}
               />
@@ -92,15 +79,18 @@ export default function ProductCreate({ loader, control, btnLoader }) {
       </div>
 
       <div className={styles.createRightSide}>
-        <FormCard title="Product">
+        <FormCard title="" visible={!loader}>
           <div className={styles.flex}>
             <FRow label="Status Available">
-              <Switcher
+
+              <HFSwitch
                 name="status"
                 control={control}
-                label="Toggle Switch"
-                color="primary"
-              />
+                label="Switch Status"
+                defaultValue={false}
+                color="primary" 
+               />
+
             </FRow>
           </div>
         </FormCard>

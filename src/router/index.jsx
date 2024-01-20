@@ -37,6 +37,7 @@ const Router = () => {
         <Route path="menu" element={<>Menu</>} />
         <Route path="category" element={<CategoryPage />} />
         <Route path="category/create" element={<CategoryForm />} />
+        <Route path="category/:id" element={<CategoryForm />} />
         <Route path="*" element={<Navigate to="products" />} />
       </Route>
       <Route path="*" element={<Navigate to="products" />} />

@@ -13,18 +13,16 @@ import ProductUpdate from "./ProductUpdate/ProductUpdate";
 const PositionsFormPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    watch,
+  } = useForm();
 
   const [btnLoader, setBtnLoader] = useState(false);
   const [loader, setLoader] = useState(true);
-  const [singleDataObj, setSingleDataObj] = useState({
-    id: "",
-    name: "",
-    price: null,
-    category_id: "",
-    company_id: "",
-    description: "",
-    photo_url: "",
-  });
 
   const breadCrumbItems = [
     {
@@ -35,13 +33,7 @@ const PositionsFormPage = () => {
     },
   ];
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    watch,
-  } = useForm();
+    console.log(id)  
 
   console.log("watch", watch());
   useEffect(() => {
@@ -55,19 +47,27 @@ const PositionsFormPage = () => {
     productsService
       .getById(id)
       .then((res) => {
-        console.log(res);
-
-        reset(res);
+        const {name, price, description, category_id, photo_url ,status} = res
+        const productObj = {
+          name,
+          price,
+          description,
+          category_id,
+          photo_url,
+          status: status ==="active" ? true : false
+        }
+        reset(productObj);
       })
       .finally(() => setLoader(false));
   };
 
   const onSubmit = (values) => {
+
+    console.log(values.status)
     const data = {
       ...values,
       price: +values.price,
-      status: values.status ? "active" : "Not-active",
-      category_id: "c8ee405b-f266-4585-b7be-ac10cffef2d6",
+      status: values.status ? "active" : "inactive",
       company_id: "c6440797-dc74-4054-a0f0-2a4d3e6d3867",
     };
 
@@ -115,8 +115,8 @@ const PositionsFormPage = () => {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.handleSubmitForm}>
       <Header
         loader={loader}
-        backButtonLink={"/positions"}
-        title="Positions"
+        backButtonLink={"/products"}
+        title="Products"
         extra={
           <>
             <CancelButton onClick={() => navigate(-1)} />
@@ -127,19 +127,11 @@ const PositionsFormPage = () => {
         <CBreadcrumbs withDefautlIcon items={breadCrumbItems} />
       </Header>
       <div className={styles.CreateUpdateContainer}>
-        {id ? (
-          <ProductUpdate
-            loader={loader}
-            btnLoader={btnLoader}
-            control={control}
-          />
-        ) : (
           <ProductCreate
             loader={loader}
             btnLoader={btnLoader}
             control={control}
           />
-        )}
       </div>
     </form>
   );

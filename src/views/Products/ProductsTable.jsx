@@ -1,3 +1,4 @@
+import classes from "./style.module.scss";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonsPopover from "../../components/ButtonsPopover";
@@ -12,6 +13,7 @@ import {
 import productService from "../../services/productsService";
 import { pageToOffset } from "../../utils/pageToOffset";
 import productImageUrl from "../../assets/download.jpg";
+import DeleteModal from "../../components/common/DeleteModal/DeleteModal";
 
 const PositionsTable = () => {
   const navigate = useNavigate();
@@ -20,6 +22,41 @@ const PositionsTable = () => {
   const [loader, setLoader] = useState(true);
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [openModal, setOpenModal] = useState({status: false, id: null})
+
+  const closeErrorModal =() => {
+    setOpenModal((prev) => ({...prev, status: false}))
+}
+
+  const columns = [
+    {
+      key: "image",
+      title: "Image",
+      render: (itemObj) => (
+        <img
+          src={itemObj.photo_url}
+          className={classes.image}
+          alt="Product-image"
+        />
+      ),
+    },
+    { key: "name", title: "Name" },
+    { key: "price", title: "Price" },
+    // { key: "description", title: "Description" },
+    { key: "status", title: "Status" },
+    {
+      key: "actions",
+      title: "Actions",
+      render: (itemObj) => (
+        <ButtonsPopover
+          id={itemObj.id}
+          onEditClick={navigateToEditForm}
+          setOpenModal={setOpenModal}
+        />
+      ),
+    },
+  ];
+
 
   useEffect(() => {
     fetchTableData();
@@ -41,7 +78,7 @@ const PositionsTable = () => {
   };
 
   // Delete data quiery
-  const deleteTableData = (e, id) => {
+  const deleteTableData = (id) => {
     setLoader(true);
     productService
       .delete(id)
@@ -59,6 +96,7 @@ const PositionsTable = () => {
   console.log(tableData);
 
   return (
+    <>
     <CTable
       count={pageCount}
       page={currentPage}
@@ -68,12 +106,9 @@ const PositionsTable = () => {
     >
       <CTableHead>
         <CTableHeadRow>
-          <CTableCell width={50}>No</CTableCell>
-          <CTableCell width={100}>Image</CTableCell>
-          <CTableCell>Name</CTableCell>
-          <CTableCell>Price</CTableCell>
-          <CTableCell>Status</CTableCell>
-          <CTableCell>Actions</CTableCell>
+          {columns.map((column) => {
+            return <CTableCell key={column.key}>{column.title}</CTableCell>;
+          })}
         </CTableHeadRow>
       </CTableHead>
       {
@@ -82,37 +117,35 @@ const PositionsTable = () => {
           columnsCount={3}
           dataLength={tableData?.length}
         >
-          {" "}
-          {/*dataLength={tableData?.length}*/}
           {tableData?.map((data, index) => (
             <>
-              {console.log(data)}
               <CTableRow
                 key={data.id}
                 // onClick={() => navigate(`/projects/${data.id}/backlog`)}
               >
-                <CTableCell>{index + 1}</CTableCell>
-                <CTableCell>
-                  <img src={productImageUrl} />
-                </CTableCell>
-                <CTableCell>{data.name}</CTableCell>
-                <CTableCell>{data.price}</CTableCell>
-                <CTableCell>
-                  {data.status === "active" ? "True" : "False"}
-                </CTableCell>
-                <CTableCell>
-                  <ButtonsPopover
-                    id={data.id}
-                    onEditClick={navigateToEditForm}
-                    onDeleteClick={deleteTableData}
-                  />
-                </CTableCell>
+                {columns.map((column) => {
+                  return (
+                    <CTableCell
+                      className={
+                        column.key === "image" || column.key === "actions"
+                          ? classes.imageBox
+                          : ""
+                      }
+                      key={column.id}
+                    >
+                      {column.render ? column.render(data) : data[column.key]}
+                    </CTableCell>
+                  );
+                })}
               </CTableRow>
             </>
           ))}
         </CTableBody>
       }
     </CTable>
+
+    {openModal.status && <DeleteModal openModal={openModal} closeErrorModal={closeErrorModal} deleteTableData={deleteTableData}/> }
+    </>
   );
 };
 
